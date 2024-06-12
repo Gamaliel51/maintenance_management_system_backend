@@ -35,6 +35,9 @@ const Complaint = sequelize.define('Complaint', {
     },
     complete_date: {
         type: DataTypes.STRING
+    },
+    satisfaction: {
+        type: DataTypes.STRING
     }
 })
 

@@ -6,7 +6,7 @@ const router = express.Router()
 
 router
 .post('/signup', async (req, res) => {
-    const  { studentid, password, name, email } = req.body
+    const  { studentid, password, name, email, gender } = req.body
 
     const in_use = await Student.findOne({where: {studentid: studentid.toLowerCase()}})
     if(in_use){
@@ -20,6 +20,7 @@ router
         password: hashedPass,
         studentname: name,
         studentemail: email,
+        gender: gender,
     })
 
     await user.save()
@@ -38,7 +39,7 @@ router
     if(user){
         const passcheck  = await bcrypt.compare(password, user.password)
         if(passcheck){
-            const token = jwt.sign({username: user.studentid}, process.env.ACCESS_KEY, {expiresIn: '1d'})
+            const token = jwt.sign({username: user.studentid, name: user.studentname, email: user.studentemail}, process.env.ACCESS_KEY, {expiresIn: '1d'})
             return res.json({status: 'ok', access: token})
         }
         return res.json({status: 'fail', error: 'wrong username or password'})
