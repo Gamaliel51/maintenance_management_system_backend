@@ -27,7 +27,7 @@ const Complaint = sequelize.define('Complaint', {
     location: {
         type: DataTypes.STRING
     },
-    status: {                       // three states - received, in progress and completed
+    status: {                       // three states - received, in progress and done
         type: DataTypes.STRING
     },
     start_date: {

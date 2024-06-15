@@ -44,7 +44,7 @@ router
         return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
             studentemail: complaint.studentemail, building: complaint.building, category: complaint.category, item: complaint.item, 
             location: complaint.location, status: complaint.status, start_date: complaint.start_date, 
-            complete_date: complaint.complete_date
+            complete_date: complaint.complete_date, satisfaction: complaint.satisfaction
         }
     })
 
@@ -58,7 +58,7 @@ router
     const send_data = all_complaints.map((complaint) => {
         return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
             building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
-            status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date
+            status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date, satisfaction: complaint.satisfaction
         }
     })
 
@@ -72,7 +72,7 @@ router
     const send_data = all_complaints.map((complaint) => {
         return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
             building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
-            status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date
+            status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date, satisfaction: complaint.satisfaction
         }
     })
 
@@ -86,7 +86,7 @@ router
     const send_data = all_complaints.map((complaint) => {
         return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
             building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
-            status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date
+            status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date, satisfaction: complaint.satisfaction
         }
     })
 
@@ -148,9 +148,36 @@ router
         }
         else{
             if(electrical && complaint.category === 'electrical'){
-                if(include_done){
+                if(!include_done && !include_progress && !include_received){
                     if(date_range !== null){
                         if(isDateBetween(complaint.start_date, date_range.start, date_range.stop)){
+                            return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
+                                building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
+                                status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date, satisfaction: complaint.satisfaction
+                            }
+                        }
+                    }
+                    else{
+                        console.log("\n\n\nFGSDG\n\n\n")
+                        return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
+                            building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
+                            status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date, satisfaction: complaint.satisfaction
+                        }
+                    }
+                }
+                else{
+                    if(include_done){
+                        if(date_range !== null){
+                            if(isDateBetween(complaint.start_date, date_range.start, date_range.stop)){
+                                if(complaint.status === 'done'){
+                                    return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
+                                        building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
+                                        status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date, satisfaction: complaint.satisfaction
+                                    }
+                                }
+                            }
+                        }
+                        else{
                             if(complaint.status === 'done'){
                                 return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
                                     building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
@@ -159,18 +186,18 @@ router
                             }
                         }
                     }
-                    else{
-                        if(complaint.status === 'done'){
-                            return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
-                                building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
-                                status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date
+                    if(include_progress){
+                        if(date_range !== null){
+                            if(isDateBetween(complaint.start_date, date_range.start, date_range.stop)){
+                                if(complaint.status === 'in progress'){
+                                    return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
+                                        building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
+                                        status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date, satisfaction: complaint.satisfaction
+                                    }
+                                }
                             }
                         }
-                    }
-                }
-                if(include_progress){
-                    if(date_range !== null){
-                        if(isDateBetween(complaint.start_date, date_range.start, date_range.stop)){
+                        else{
                             if(complaint.status === 'in progress'){
                                 return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
                                     building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
@@ -179,40 +206,58 @@ router
                             }
                         }
                     }
-                    else{
-                        if(complaint.status === 'in progress'){
-                            return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
-                                building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
-                                status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date
+                    if(include_received){
+                        if(date_range !== null){
+                            if(isDateBetween(complaint.start_date, date_range.start, date_range.stop)){
+                                if(complaint.status === 'received'){
+                                    return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
+                                        building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
+                                        status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date, satisfaction: complaint.satisfaction
+                                    }
+                                }
                             }
                         }
-                    }
-                }
-                if(include_received){
-                    if(date_range !== null){
-                        if(isDateBetween(complaint.start_date, date_range.start, date_range.stop)){
+                        else{
                             if(complaint.status === 'received'){
                                 return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
                                     building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
                                     status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date
                                 }
-                            }
-                        }
-                    }
-                    else{
-                        if(complaint.status === 'received'){
-                            return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
-                                building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
-                                status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date
                             }
                         }
                     }
                 }
             }
             if(carpentry && complaint.category === 'carpentry'){
-                if(include_done){
+                if(!include_done && !include_progress && !include_received){
                     if(date_range !== null){
                         if(isDateBetween(complaint.start_date, date_range.start, date_range.stop)){
+                            return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
+                                building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
+                                status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date, satisfaction: complaint.satisfaction
+                            }
+                        }
+                    }
+                    else{
+                        return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
+                            building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
+                            status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date, satisfaction: complaint.satisfaction
+                        }
+                    }
+                }
+                else{
+                    if(include_done){
+                        if(date_range !== null){
+                            if(isDateBetween(complaint.start_date, date_range.start, date_range.stop)){
+                                if(complaint.status === 'done'){
+                                    return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
+                                        building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
+                                        status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date, satisfaction: complaint.satisfaction
+                                    }
+                                }
+                            }
+                        }
+                        else{
                             if(complaint.status === 'done'){
                                 return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
                                     building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
@@ -221,18 +266,18 @@ router
                             }
                         }
                     }
-                    else{
-                        if(complaint.status === 'done'){
-                            return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
-                                building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
-                                status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date
+                    if(include_progress){
+                        if(date_range !== null){
+                            if(isDateBetween(complaint.start_date, date_range.start, date_range.stop)){
+                                if(complaint.status === 'in progress'){
+                                    return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
+                                        building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
+                                        status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date, satisfaction: complaint.satisfaction
+                                    }
+                                }
                             }
                         }
-                    }
-                }
-                if(include_progress){
-                    if(date_range !== null){
-                        if(isDateBetween(complaint.start_date, date_range.start, date_range.stop)){
+                        else{
                             if(complaint.status === 'in progress'){
                                 return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
                                     building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
@@ -241,40 +286,58 @@ router
                             }
                         }
                     }
-                    else{
-                        if(complaint.status === 'in progress'){
-                            return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
-                                building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
-                                status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date
+                    if(include_received){
+                        if(date_range !== null){
+                            if(isDateBetween(complaint.start_date, date_range.start, date_range.stop)){
+                                if(complaint.status === 'received'){
+                                    return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
+                                        building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
+                                        status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date, satisfaction: complaint.satisfaction
+                                    }
+                                }
                             }
                         }
-                    }
-                }
-                if(include_received){
-                    if(date_range !== null){
-                        if(isDateBetween(complaint.start_date, date_range.start, date_range.stop)){
+                        else{
                             if(complaint.status === 'received'){
                                 return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
                                     building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
                                     status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date
                                 }
-                            }
-                        }
-                    }
-                    else{
-                        if(complaint.status === 'received'){
-                            return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
-                                building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
-                                status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date
                             }
                         }
                     }
                 }
             }
             if(facility && complaint.category === 'facilities'){
-                if(include_done){
+                if(!include_done && !include_progress && !include_received){
                     if(date_range !== null){
                         if(isDateBetween(complaint.start_date, date_range.start, date_range.stop)){
+                            return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
+                                building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
+                                status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date, satisfaction: complaint.satisfaction
+                            }
+                        }
+                    }
+                    else{
+                        return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
+                            building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
+                            status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date, satisfaction: complaint.satisfaction
+                        }
+                    }
+                }
+                else{
+                    if(include_done){
+                        if(date_range !== null){
+                            if(isDateBetween(complaint.start_date, date_range.start, date_range.stop)){
+                                if(complaint.status === 'done'){
+                                    return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
+                                        building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
+                                        status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date, satisfaction: complaint.satisfaction
+                                    }
+                                }
+                            }
+                        }
+                        else{
                             if(complaint.status === 'done'){
                                 return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
                                     building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
@@ -283,18 +346,18 @@ router
                             }
                         }
                     }
-                    else{
-                        if(complaint.status === 'done'){
-                            return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
-                                building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
-                                status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date
+                    if(include_progress){
+                        if(date_range !== null){
+                            if(isDateBetween(complaint.start_date, date_range.start, date_range.stop)){
+                                if(complaint.status === 'in progress'){
+                                    return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
+                                        building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
+                                        status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date, satisfaction: complaint.satisfaction
+                                    }
+                                }
                             }
                         }
-                    }
-                }
-                if(include_progress){
-                    if(date_range !== null){
-                        if(isDateBetween(complaint.start_date, date_range.start, date_range.stop)){
+                        else{
                             if(complaint.status === 'in progress'){
                                 return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
                                     building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
@@ -303,40 +366,58 @@ router
                             }
                         }
                     }
-                    else{
-                        if(complaint.status === 'in progress'){
-                            return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
-                                building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
-                                status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date
+                    if(include_received){
+                        if(date_range !== null){
+                            if(isDateBetween(complaint.start_date, date_range.start, date_range.stop)){
+                                if(complaint.status === 'received'){
+                                    return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
+                                        building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
+                                        status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date, satisfaction: complaint.satisfaction
+                                    }
+                                }
                             }
                         }
-                    }
-                }
-                if(include_received){
-                    if(date_range !== null){
-                        if(isDateBetween(complaint.start_date, date_range.start, date_range.stop)){
+                        else{
                             if(complaint.status === 'received'){
                                 return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
                                     building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
                                     status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date
                                 }
-                            }
-                        }
-                    }
-                    else{
-                        if(complaint.status === 'received'){
-                            return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
-                                building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
-                                status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date
                             }
                         }
                     }
                 }
             }
             if(!electrical && !facility && !carpentry){
-                if(include_done){
+                if(!include_done && !include_progress && !include_received){
                     if(date_range !== null){
                         if(isDateBetween(complaint.start_date, date_range.start, date_range.stop)){
+                            return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
+                                building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
+                                status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date, satisfaction: complaint.satisfaction
+                            }
+                        }
+                    }
+                    else{
+                        return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
+                            building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
+                            status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date, satisfaction: complaint.satisfaction
+                        }
+                    }
+                }
+                else{
+                    if(include_done){
+                        if(date_range !== null){
+                            if(isDateBetween(complaint.start_date, date_range.start, date_range.stop)){
+                                if(complaint.status === 'done'){
+                                    return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
+                                        building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
+                                        status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date, satisfaction: complaint.satisfaction
+                                    }
+                                }
+                            }
+                        }
+                        else{
                             if(complaint.status === 'done'){
                                 return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
                                     building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
@@ -345,18 +426,18 @@ router
                             }
                         }
                     }
-                    else{
-                        if(complaint.status === 'done'){
-                            return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
-                                building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
-                                status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date
+                    if(include_progress){
+                        if(date_range !== null){
+                            if(isDateBetween(complaint.start_date, date_range.start, date_range.stop)){
+                                if(complaint.status === 'in progress'){
+                                    return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
+                                        building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
+                                        status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date, satisfaction: complaint.satisfaction
+                                    }
+                                }
                             }
                         }
-                    }
-                }
-                if(include_progress){
-                    if(date_range !== null){
-                        if(isDateBetween(complaint.start_date, date_range.start, date_range.stop)){
+                        else{
                             if(complaint.status === 'in progress'){
                                 return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
                                     building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
@@ -365,31 +446,23 @@ router
                             }
                         }
                     }
-                    else{
-                        if(complaint.status === 'in progress'){
-                            return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
-                                building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
-                                status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date
+                    if(include_received){
+                        if(date_range !== null){
+                            if(isDateBetween(complaint.start_date, date_range.start, date_range.stop)){
+                                if(complaint.status === 'received'){
+                                    return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
+                                        building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
+                                        status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date, satisfaction: complaint.satisfaction
+                                    }
+                                }
                             }
                         }
-                    }
-                }
-                if(include_received){
-                    if(date_range !== null){
-                        if(isDateBetween(complaint.start_date, date_range.start, date_range.stop)){
+                        else{
                             if(complaint.status === 'received'){
                                 return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
                                     building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
                                     status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date
                                 }
-                            }
-                        }
-                    }
-                    else{
-                        if(complaint.status === 'received'){
-                            return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
-                                building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
-                                status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date
                             }
                         }
                     }

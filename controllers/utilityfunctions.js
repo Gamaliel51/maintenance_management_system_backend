@@ -19,7 +19,7 @@ const send_periodic_report = async () => {
     const complaints = all_complaints.map((complaint) => {
         return {complaint_id: complaint.complaint_id, studentid: complaint.studentid, studentname: complaint.studentname, 
             building: complaint.building, category: complaint.category, item: complaint.item, location: complaint.location, 
-            status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date
+            status: complaint.status, start_date: complaint.start_date, complete_date: complaint.complete_date, satisfaction: complaint.satisfaction
         }
     })
 
